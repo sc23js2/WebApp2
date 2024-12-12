@@ -25,7 +25,7 @@ class ProductForm(FlaskForm):
     quantity_available = IntegerField('Quantity availible to sell.', validators=[DataRequired()])
     category = SelectField('Product Category', choices=[('Trainers'), ('Boots'), ('Heels'), ('Sandals')], validators=[DataRequired()])
     size = SelectField('Product Size', choices=[('EU35', 'UK3'), ('EU36', 'UK3.5'), ('EU37', 'UK4'), ('EU37.5', 'UK4.5'), ('EU38', 'UK5'), ('EU39', 'UK5.5'), ('EU39.5', 'UK6'), ('EU40', 'UK6.5'), ('EU41', 'UK7'), ('EU41.5', 'UK7.5'), ('EU42', 'UK8'), ('EU42.5', 'UK8.5'), ('EU43', 'UK9'), ('EU44', 'UK9.5'), ('EU44.5', 'UK10')], validators=[DataRequired()])
-    image = FileField('Product Image', validators=[FileRequired(), FileAllowed(['jpg', 'png', 'jpeg'], "Images Only.")])
+    image = FileField('Product Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'], "Images Only.")])
     submit = SubmitField('Upload Item')
  
 class EditAccountForm(FlaskForm):

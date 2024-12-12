@@ -21,7 +21,7 @@ class CustomerOrders(db.Model):
     __tablename__='Customerorders'
     id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer, db.ForeignKey('Customers.id'), nullable=False)
-    order_date = db.Column(db.Date, nullable=False)
+    order_date = db.Column(db.String, nullable=False)
     shipping_address_id = db.Column(db.Integer, db.ForeignKey('Addresses.id'), nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     order_complete = db.Column(db.Boolean, default=False)

@@ -66,7 +66,7 @@ html body{
 }
 
 .row{
-    padding-left: 25%;
+    padding-left: 17%;
 
 }
 
@@ -98,6 +98,13 @@ html body{
 
 }
 
+.like-controls
+{
+    float: right;
+    right: 80%;
+    justify-content: right;
+    padding-bottom: 10px;
+}
 
 /*flashed messages*/
 .messages
@@ -131,7 +138,7 @@ html body{
 }
 
 textarea{
-    width: 90%;
+    width: 400px;
     height: 300px;
     resize: none;
 }

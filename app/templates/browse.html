@@ -9,6 +9,7 @@
   </head>
   <body>
 
+
       <div class="info">
         <h1> {{ Filter }} </h1>
       
@@ -48,17 +49,27 @@
               <br>
               <h6 class="details card-subtitle fw-light">Quanity Available x {{ p.quantity_available }}</h6>
 
+
               <!-- Buttons for interacting with product-->
               <div class="controls">
                 {%if p.owner_id != current_user.id %}
                   <br>
-                  {% if p.id in basket %}
-                    <a class="btn btn-secondary" href="{{ url_for('removefrombasket', id=p.id) }}">Remove From Basket</a>
+
+                  {% if p.quantity_available <= 0 %}
+                    <p class="danger info">This product is out of stock.</p>
                   {% else %}
-                    <a class="btn btn-success" href="{{ url_for('addtobasket', id=p.id) }}">Add To Basket</a>
+                    {% if p.id in basket %}
+                      <a class="btn btn-secondary" href="{{ url_for('removefrombasket', id=p.id) }}">Remove From Basket</a>
+                    {% else %}
+                      <a class="btn btn-success" href="{{ url_for('addtobasket', id=p.id) }}">Add To Basket</a>
+                    {% endif %}
                   {% endif %}
 
-                  <a class="btn like-button" id="{{p.id}} like-button"><i class="far fa-heart" id="heart"></i><span id="sup"> 🖤:{{ p.likes }}</span></a>
+                  <a class="like-controls">
+                    <button  class="btn btn-secondary" onclick="likeProduct( {{p.id}} )">Like</button>
+                  </a>
+                  <br><br>
+                  <a class="like-controls" id="likes-{{p.id}}"> This product has {{p.likes}} Likes 🖤 </a> 
 
                 {% else %}
                 <br>
