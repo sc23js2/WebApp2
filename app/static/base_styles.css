@@ -66,7 +66,7 @@ html body{
 }
 
 .row{
-    padding-left: 25%;
+    padding-left: 17%;
 
 }
 
@@ -88,8 +88,6 @@ html body{
     padding: 2px;
 }
 
-
-
 .title{
     text-decoration:double;
 }
@@ -100,6 +98,13 @@ html body{
 
 }
 
+.like-controls
+{
+    float: right;
+    right: 80%;
+    justify-content: right;
+    padding-bottom: 10px;
+}
 
 /*flashed messages*/
 .messages
@@ -111,8 +116,8 @@ html body{
     border-width: 2px;
 }
 
-/* forms */
 
+/* forms */
 #login-signup{
     width: 100%;
     padding: 5%;
@@ -125,19 +130,15 @@ html body{
 
 
 #login-signup input{
-
-    
     width: 100%;
     box-sizing: border-box;
     border: maroon 1px sold;
     padding: 8px;
     color:maroon;
-        
-    
 }
 
 textarea{
-    width: 90%;
+    width: 400px;
     height: 300px;
     resize: none;
 }
