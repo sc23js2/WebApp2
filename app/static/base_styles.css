@@ -88,8 +88,6 @@ html body{
     padding: 2px;
 }
 
-
-
 .title{
     text-decoration:double;
 }
@@ -111,8 +109,8 @@ html body{
     border-width: 2px;
 }
 
-/* forms */
 
+/* forms */
 #login-signup{
     width: 100%;
     padding: 5%;
@@ -125,15 +123,11 @@ html body{
 
 
 #login-signup input{
-
-    
     width: 100%;
     box-sizing: border-box;
     border: maroon 1px sold;
     padding: 8px;
     color:maroon;
-        
-    
 }
 
 textarea{
