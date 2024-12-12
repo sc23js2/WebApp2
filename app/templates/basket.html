@@ -15,32 +15,31 @@
       
       <!-- if there are products to show then view them, else shoe a no products message-->
       {% if products.__len__() > 0 %}
+      <div class="container productview">
+          
+          <div class="row">
+              {% for p in products %}
 
-        {% for p in products %}
-          <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="card mb-12">
+              <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+                  <div class="card mb-6">
                       <div class="card-body">
-                  
-                        <h4 class="card-title fw-bold ">{{ p.name }} </h4>
-                        <h6 class="card-subtitle fw-light">Price: £{{ p.price }}</h6>
-                        <h6 class="card-subtitle fw-light">Quanity available: £{{ p.quantity_available }}</h6>
-                  
-                        <div class="card-text fw-lighter"><i>{{ p.description }}</i> </div>
-                        
-                       
-                        <!-- Buttons for interacting with product-->
-                        <div class="controls">
-                            <a class="btn btn-danger" href="{{ url_for('removefrombasket', id=p.id) }}">Remove from</a>-->              
+                          
+                          <img src="{{ url_for('getimage', id=p.product_id) }}"  alt="{{ p.product_name }}" class="product-image card-img-top">
+                          <br><br>
+                          <h4 class="details title card-title fw-bold ">{{ (url_for('getproduct', id=p.product_id)).product_name }} </h4>
+                          
+                          <!-- Buttons for interacting with product-->
+                          <div class="controls">
+                            <a class="btn btn-danger" href="{{ url_for('removefrombasket', id=p.product_id) }}">Remove from Basket</a>          
                         </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-          {% endfor %}
-          <p class="total">Total: £{{totalprice}}</p>
-          <a class="btn btn-secondary" href="{{ url_for('checkout, price=totalprice') }}">Checkout</a>-->
+                      </div>
+                      </div>
+                      
+                  </div>
+              </div>
+              {% endfor %}
+          <p class="total info">Total: £{{totalprice}}</p>
+          <a class="btn btn-secondary" href="{{ url_for('checkout') }}">Checkout</a>
         {% else %}
             <p class="danger info">Empty Basket.</p>
         {% endif %}
