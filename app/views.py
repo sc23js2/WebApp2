@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, Response, session, send_file, send_from_directory
+from flask import render_template, flash, redirect, url_for, request, Response, session, send_file, jsonify
 from app import app, db, models, admin, login_manager
 from .forms import LoginForm, SignUpForm, ProductForm, EditAccountForm, EditPasswordForm
 from flask_admin.contrib.sqla import ModelView
@@ -70,8 +70,8 @@ def signup():
 
         try:
             #add user
-            app.logger.info("attempting add user. %s", email)
             user = Customers(first_name=fname, last_name=lname, email=email, password=hashed_password)
+            app.logger.info("attempting add user. %s", email)
             db.session.add(user)
             db.session.flush() #make sure id is populated
             app.logger.info('customer details valid.')
@@ -258,10 +258,15 @@ def sandals():
 def delete(id):
     try:
         p = models.Products.query.get_or_404(id)
+
+        productinbasket = models.Basket.query.filter_by(product_id=p.id).all()
+        for pib in productinbasket:
+            removefrombasket(pib.id)
+
         db.session.delete(p)
         db.session.commit()
         flash("Successfully deleted product.", "success")
-           
+        
     except:
             db.session.rollback()
             flash("Error when deleting.", "warning")
@@ -337,6 +342,18 @@ def edit(id):
     form.size.data = product.size
 
     if form.validate_on_submit():
+        app.logger.info("validating..")
+        if form.price.data < 0:
+                flash("price cant be negative")
+                return render_template('add-product.html',
+                           title='Edit Product',
+                           form=form, new=False, product=product)
+
+        if form.quantity_available.data < 0:
+            flash("quantity cant be negative")
+            return render_template('add-product.html',
+                           title='Edit Product',
+                           form=form, new=False, product=product)
         
         app.logger.info("checkpoint A")
         product.product_name=form.name.data
@@ -349,10 +366,10 @@ def edit(id):
         app.logger.info("data recieved")
 
         db.session.commit()
-    
+        app.logger.info("SUCCESS. edited product.")
 
         flash("Succesfully edited Product", "success")
-        return redirect(url_for("all"))
+        return redirect(url_for("profile"))
         
     else:
             flash('Error: Product not edited.', "warning")
@@ -360,7 +377,7 @@ def edit(id):
     return render_template('add-product.html',
                            title='Edit Product',
                            form=form, new=False, product=product)
-                            #form=form form.name.data=product.title form.name.description= .....
+                         
 
                         
 @app.route('/edit-product/<int:id>')     
@@ -369,7 +386,6 @@ def getimage(id): #id is product id to get image for
     product = ProductImages.query.filter_by(product_id=id).first()
     path = product.filename
 
-    #app.logger.info(.image)
     return send_file(BytesIO(product.image), mimetype=product.mimetype, as_attachment=False, download_name=product.filename)
 
 
@@ -377,16 +393,18 @@ def getimage(id): #id is product id to get image for
 @login_required
 def addtobasket(id): #id = product id
     try:
+        productinbasket = Basket.query.filter_by(customer_id=current_user.id, product_id=id).first() 
+        if productinbasket:
+            flash("WARNING: Product is already in the basket", "warning")
+            return redirect(url_for("all"))
+
         app.logger.info("adding")
         producttoadd = Basket(customer_id=current_user.id, product_id=id) #need to update database with basket schema
-        
+        app.logger.info(producttoadd.customer_id)
+        app.logger.info(producttoadd.product_id)
         db.session.add(producttoadd)
         app.logger.info("good")
-        #app.logger.info(producttoadd.product_id)
 
-        #db.session.flush()
-        #db.session.add(producttoadd)
-        
         db.session.commit()
         app.logger.info("commited")
 
@@ -399,13 +417,17 @@ def addtobasket(id): #id = product id
     return redirect(url_for("all"))
 
 
-@app.route("/remove-from-basket/<int:id>")
+@app.route("/remove-from-basket/<int:id>" , methods=['GET', 'POST'])
 @login_required
 def removefrombasket(id): #id = product id
     try:
-        productinbasket = Basket.query.get_or_404(customer_id=current_user.id, product_id=id) #need to update database with basket schema
+        app.logger.info("attempt")
+        productinbasket = Basket.query.filter_by(customer_id=current_user.id, product_id=id).first() #need to update database with basket schema
+        app.logger.info("got basket item")
         db.session.delete(productinbasket)
+        app.logger.info("deleted")
         db.session.commit()
+        app.logger.info("committed")
         flash("Product removed from basket.", "success")
            
     except:
@@ -415,66 +437,90 @@ def removefrombasket(id): #id = product id
     return redirect(url_for("viewbasket"))
 
 
-@app.route("/basket")
+
+@app.route("/basket", methods=['GET', 'POST'])
 @login_required
 def viewbasket():
-    basket_products = models.Basket.query.filter_by(customer_id=current_user.id).all()
-
+    basket_products = Basket.query.filter_by(customer_id=current_user.id).all()
     totalprice = 0.00
+    
     for p in basket_products:
-         totalprice = totalprice + p.price
+        product = Products.query.get_or_404(p.product_id)
+        totalprice = totalprice + product.price 
+  
+  
     return render_template("basket.html", title="Basket", products=basket_products, current_user=current_user, totalprice=totalprice)
 
-@app.route("/checkout/<float:totalprice>")
-@login_required
-def checkout(totalprice):
-    basket_products = models.Basket.query.filter_by(customer_id=current_user.id).all()
-    
-    shippingadress = models.Addresses.query.filter_by(customer_id=current_user.id).first()
 
-    order = models.CustomerOrders(customer_id=current_user.id, order_date=datetime.now().date, shipping_address_id=shippingadress.id, total_price=totalprice, order_complete=False)
+
+@app.route("/checkout")
+@login_required
+def checkout():
+    basket_products = models.Basket.query.filter_by(customer_id=current_user.id).all()
+    app.logger.info("got products")
+    shippingadress = models.Addresses.query.filter_by(customer_id=current_user.id).first()
+    app.logger.info("got address")
+
+    totalprice=0.00
+    for p in basket_products:
+        product = Products.query.get_or_404(p.product_id)
+        totalprice = totalprice + product.price 
+    
+
+    order = models.CustomerOrders(customer_id=current_user.id, order_date=datetime.now().date() , shipping_address_id=shippingadress.id, total_price=totalprice, order_complete=False)
+    app.logger.info("created order")
     db.session.add(order)
+    
     db.session.flush()
 
     orderid = order.id
 
     for p in basket_products:
-
-        if p.quantity == 0:
+        product = Products.query.get_or_404(p.product_id)
+         
+        if product.quantity_available == 0:
             db.session.rollback()
             app.logger.info("product out of stock")
             flash("ERROR: one of your products is out of stock", "error")
-            return redirect(url_for(viewbasket))
+            db.session.rollback()
+            return redirect(url_for("viewbasket"))
         
-        p.quantity = p.quantity - 1
-        producttoorder = models.OrderedProducts(order_id=orderid, product_id=p.id, quantity=1)
+        product.quantity_available = product.quantity_available - 1
+        producttoorder = models.OrderedProducts(order_id=orderid, product_id=product.id, quantity=1)
         db.session.add(producttoorder)
+
+        #remove from basket
+        removefrombasket(product.id)
         
     db.session.commit()
     app.logger.info("Order successful")
-    flash("Order successful. Your order #%s is being processed and products will be shipped in due course" + orderid , "success")
+    flash("Order successful. Your order #%s is being processed and products will be shipped in due course" + str(orderid) , "success")
 
-    return redirect(url_for(profile))
+    return redirect(url_for("profile"))
 
 
 ##AJAX LIKE BUTTON
-@app.route('/like/<int:id>', methods=['POST'])
-def like(id):
-        # Load the JSON data and use the ID of the idea that was clicked to get the object
-    data = json.loads(request.data)
-    product_id = int(data.get('product_id'))
-    product = models.Products.query.get(product_id)
+@app.route('/like', methods=['POST'])
+def like_product():
+    try:
+        # Extract product ID from the request data
+        product_id = request.json.get('product_id')
 
-    # Increment the correct vote
-    
-    product.likes += 1
+        # get product
+        product = Products.query.get(product_id)
 
-        # Save the updated vote count in the DB
-    db.session.commit()
-        # Tell the JS .ajax() call that the data was processed OK
-    return json.dumps({'status':'OK','Likes': product.likes})
+        # Increment the likes count
+        product.likes += 1
+        db.session.commit()
+
+        return jsonify({"success": True, "likes": product.likes})
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
      
 
-     
-    
+@app.route('/getproduct/<int:id>', methods=['GET'])
+def getproduct(id):
+    return Products.query.get_or_404(id)
