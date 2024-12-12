@@ -47,7 +47,7 @@
                     <div class="row">
                         {% for p in products %}
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="card mb-6">
+                            <div class="card mb-4">
                                 <div class="card-body">
                                     
                                     <img src="{{ url_for('getimage', id=p.id) }}"  alt="{{ p.name }}" class="product-image card-img-top">
@@ -60,6 +60,8 @@
                                     <br>
                                     <h6 class="details card-subtitle fw-light">Quanity Available x {{ p.quantity_available }}</h6>
                                     <br>
+                                    <a class="like-controls" id="likes-{{p.id}}"> This product has {{p.likes}} Likes 🖤 </a> 
+                                    
                                     <!-- Buttons for interacting with product-->
                                     <div class="controls">
                                         
@@ -78,7 +80,6 @@
             </div>
        
             
-
             <h2 class="info">Your Orders</h2>
             {% if userorders.__len__() > 0 %}
 
