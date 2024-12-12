@@ -494,7 +494,7 @@ def checkout():
         
     db.session.commit()
     app.logger.info("Order successful")
-    flash("Order successful. Your order #%s is being processed and products will be shipped in due course" + str(orderid) , "success")
+    flash("Order successful. Your order #" +str(orderid) +" is being processed and products will be shipped in due course", "success")
 
     return redirect(url_for("profile"))
 
@@ -503,14 +503,11 @@ def checkout():
 @app.route('/like', methods=['POST'])
 def like_product():
     try:
-        # Extract product ID from the request data
         product_id = request.json.get('product_id')
-
-        # get product
         product = Products.query.get(product_id)
-
-        # Increment the likes count
+        
         product.likes += 1
+        
         db.session.commit()
 
         return jsonify({"success": True, "likes": product.likes})
