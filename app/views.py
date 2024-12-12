@@ -482,6 +482,7 @@ def checkout():
             db.session.rollback()
             app.logger.info("product out of stock")
             flash("ERROR: one of your products is out of stock", "error")
+            db.session.rollback()
             return redirect(url_for("viewbasket"))
         
         product.quantity_available = product.quantity_available - 1
