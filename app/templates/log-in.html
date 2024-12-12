@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+ {% block content %}
+    
+    <h1 class="info">Log In</h1>
+    
+    <form action="" method="POST" id="login-signup">
+        {{ form.hidden_tag() }}
+
+        <!-- Email -->
+         <div class="form-attributes">
+        <p>
+            <label>Email:
+            {{ form.email }}</label> <br>
+        </p>
+
+        <!--Password-->
+        <p>
+            <label>Password: 
+            {{ form.password }}</label><br>
+        </p>
+        
+        <!--Submit-->
+        <p>
+            <label>
+            {{ form.submit }}</label><br>
+        </p>
+
+        <!--form errors-->
+        {% for error in form.errors %}
+        [{{ error }}]
+        {% endfor %}
+
+    </form>
+{% endblock %}

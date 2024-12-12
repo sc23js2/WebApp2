@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>No title</title>
+    {% endif %}
+  </head>
+  <body>
+
+    <div class="indexcontrols">
+
+    <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+
+    <a class="btn btn-dark" href="{{ url_for('signup') }}">Sign Up</a>
+    
+    <br>
+   
+    <a class="btn btn-secondary" href="{{ url_for('all') }}">Browse without Login</a>
+      </div>
+  </body>
+{% endblock %}

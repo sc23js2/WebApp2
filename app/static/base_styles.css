@@ -1,0 +1,155 @@
+html body{
+    min-width: 480px;
+    width:100%;
+    background-color: beige;
+}
+
+.navbar {
+    background-color:maroon;
+    
+}
+
+.navbar-toggler
+{
+    color: beige;
+}
+.nav-link 
+{
+    color: beige;
+}
+
+.navbar-brand 
+{
+    color: beige;
+    
+}
+
+/*index*/
+.indexcontrols
+{
+    width: 90%;
+    float: center;
+    padding: 5%;
+    box-sizing: content-box;
+    align-self: center;
+    align-items: center;
+
+    .btn {
+        align-items: center;
+        width:90%;
+       margin-left: 5%;
+        margin-top: 2%;
+        margin-bottom: 1%;
+        padding: 3%;
+       
+    }
+
+    .btn-secondary{
+        background-color: white;
+        color: blue;
+        font-style: italic;
+        border-width: 0;
+    }
+
+    .btn-secondary:hover{
+        background-color: white;
+        color:rgb(48, 46, 46);
+    }
+}
+
+/* browze */
+.info{
+    padding-top: 3%;
+    padding-left: 5%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+}
+
+.row{
+    padding-left: 25%;
+
+}
+
+.vote{
+    size: 30px;
+}
+
+.filters{
+    padding-left: 5%;
+    padding-bottom: 2%;
+}
+
+.card{
+    margin-bottom: 5%;
+}
+
+.details
+{
+    padding: 2px;
+}
+
+
+
+.title{
+    text-decoration:double;
+}
+
+.emptymessage
+{
+    padding-left: 5%;
+
+}
+
+
+/*flashed messages*/
+.messages
+{
+    width: 100%;
+    float: left;
+    border-color: darkred;
+    border-radius: 2px;
+    border-width: 2px;
+}
+
+/* forms */
+
+#login-signup{
+    width: 100%;
+    padding: 5%;
+}
+    label {
+        color:maroon;
+        font-weight: bold;
+     
+    }
+
+
+#login-signup input{
+
+    
+    width: 100%;
+    box-sizing: border-box;
+    border: maroon 1px sold;
+    padding: 8px;
+    color:maroon;
+        
+    
+}
+
+textarea{
+    width: 90%;
+    height: 300px;
+    resize: none;
+}
+
+.submit{
+    background-color: green;
+}
+
+input .btn{
+    width: 100%;
+    margin: 2px;
+
+}
+
+

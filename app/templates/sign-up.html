@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+ {% block content %}
+    
+ {% if new==True %}
+    <h1 class="info">Sign Up</h1>
+ {% else %}
+    <h1 class="info">Edit Account</h1>
+ {% endif %}
+    
+    <form action="" method="POST" id="login-signup">
+        {{ form.hidden_tag() }}        
+        
+        <div class="form-attributes">
+
+            <!-- First Name -->
+            <p>
+                <label>First Name:
+                <div class="input">{{ form.first_name }}</div></label> <br>
+            </p>
+
+            <!-- Last Name -->
+            <p>
+                <label>Last Name:
+                    <div class="input">{{ form.last_name }}</div></label><br>
+            </p>
+
+            <!-- Email -->
+            <p>
+                <label>Email:
+                    <div class="input">{{ form.email }}</div></label> <br>
+            </p>
+            
+            {% if new==True %}
+            <!--Password-->
+            <p>
+                <label>Password: 
+                    <div class="input">{{ form.password }}</div></label><br>
+            </p>            
+
+            {% endif %}
+
+
+            <!--Address-->
+            <p>
+                <label>Address: 
+                <div class="input">{{ form.address_line1 }}</div></label><br>
+            </p>
+
+            <!--City-->
+            <p>
+                <label>City/Town: 
+                <div class="input">{{ form.city }}</div></label><br>
+            </p>
+
+            <!--Postcode-->
+            <p>
+                <label>Postcode: 
+                <div class="input">{{ form.postcode }}</div></label><br>
+            
+            </p>
+            
+            <!--Submit-->
+            <p>
+                <label>
+                <div class="submit">{{ form.submit }}</div></label><br>
+            </p>
+        </div>
+
+        <!--form errors-->
+        {% for error in form.errors %}
+        [{{ error }}]
+        {% endfor %}
+
+    </form>
+{% endblock %}

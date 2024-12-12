@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+ {% block content %}
+    
+    {% if new==True %}
+        <h1 class="info">Add Product</h1>
+    {% else %}
+        <h1 class="info">Edit Product</h1>
+    {% endif %}
+
+    <form action="" method="POST" id="login-signup" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        
+         <div class="form-attributes">
+            <!-- Name -->
+            <p>
+                <label>Product Name:
+                {{ form.name }}</label> <br>
+            </p>
+            
+            {% if new==False %}
+                <img src="{{ url_for('getimage', id=product.id) }}" alt="ALT TEXT: Image for current product productid={{product.id}}" style="max-width:300px;">
+            {% endif %}
+             
+           {% if new==True %}
+            <!--Image-->
+            <p>
+                <label>Upload Image:
+                {{ form.image }}</label> <br>
+            </p>
+            {% endif %}
+
+            <!-- Description-->
+            <p>
+                <label>Description:<br>
+                {{ form.description }}</label><br>
+            </p>
+
+            <!--Category-->
+            <p>
+                <label>Product Category:<br>
+                {{ form.category }}</label><br>
+            </p>
+
+            <!--Price-->
+            <p>
+                <label>Price:
+                {{ form.price }}</label><br>
+            </p>
+            
+            <!--Size-->
+            <p>
+                <label>Size:<br>
+                {{ form.size }}</label><br>
+            </p>
+
+            <!--Quantity-->
+            <p>
+                <label>Quantity available to sell:<br>
+                {{ form.quantity_available }}</label><br>
+            </p>
+
+            <!--submit-->
+            <p>
+                <label>
+                {{ form.submit }}</label><br>
+            </p>
+
+        </div>
+
+        <!--form errors-->
+        {% for error in form.errors %}
+        [{{ error }}]
+        {% endfor %}
+
+    </form>
+{% endblock %}

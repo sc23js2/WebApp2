@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>No title</title>
+    {% endif %}
+  </head>
+  <body>
+
+      <div class="info">
+        <h1> {{ Filter }} </h1>
+      
+      </div>
+
+      <!-- Button for filtering what assesments you want to view-->
+       
+      <div class="dropdown filters">
+        <button class="btn btn-secondary dropdown-toggle filter-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter By
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="{{ url_for('all') }}">All</a>
+          <a class="dropdown-item" href="{{ url_for('trainers') }}">Trainers</a>
+          <a class="dropdown-item" href="{{ url_for('heels') }} ">Heels</a>
+          <a class="dropdown-item" href="{{ url_for('boots') }}">Boots</a>
+          <a class="dropdown-item" href="{{ url_for('sandals') }} ">Sandals</a>
+        </div>
+      </div>
+      
+      
+      <!-- if there are products to show then view them, else shoe a no products message-->
+      {% if products.__len__() > 0 %}
+      <div class="row">
+        {% for p in products %}
+        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-7">
+          <div class="card mb-6">
+            <div class="card-body">
+
+              <img src="{{ url_for('getimage', id=p.id) }}"  alt="{{ p.name }}" class="product-image card-img-top">
+              <br><br>
+              <h4 class="details title card-title fw-bold ">{{ p.product_name }} </h4>
+              
+              <h3 class="details card-subtitle fw-dark"><strong>£{{ p.price }}</strong></h3>
+              <div class="details card-text fw-lighter"><i>{{ p.description }}</i> </div>
+              
+              <br>
+              <h6 class="details card-subtitle fw-light">Quanity Available x {{ p.quantity_available }}</h6>
+
+              <!-- Buttons for interacting with product-->
+              <div class="controls">
+                {%if p.owner_id != current_user.id %}
+                  <br>
+                  {% if p.id in basket %}
+                    <a class="btn btn-secondary" href="{{ url_for('removefrombasket', id=p.id) }}">Remove From Basket</a>
+                  {% else %}
+                    <a class="btn btn-success" href="{{ url_for('addtobasket', id=p.id) }}">Add To Basket</a>
+                  {% endif %}
+
+                  <a class="btn like-button" id="{{p.id}} like-button"><i class="far fa-heart" id="heart"></i><span id="sup"> 🖤:{{ p.likes }}</span></a>
+
+                {% else %}
+                <br>
+                <p class="details"><strong>You own this product. You cannot buy it.</strong></p>
+                {% endif %}
+                             
+              </div>
+          </div>
+          </div>
+      </div>
+      {% endfor %}
+      </div>
+        {% else %}
+            <p class="danger info">No products are available. Upload your own by pressing above.</p>
+        {% endif %}
+      </div>
+
+  </body>
+{% endblock %}
