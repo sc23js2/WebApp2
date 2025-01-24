@@ -42,5 +42,3 @@ class EditPasswordForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired(), Length(2, 30, message='Its a secret.')])
     submit = SubmitField('Update Password')
     
-#def checkPassword(request, id)
-    #form=assesment(request.post)
