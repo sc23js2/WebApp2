@@ -328,16 +328,6 @@ def getproduct(id):
     return Products.query.get_or_404(id)
 
 
-# get image to display                  
-@app.route('/edit-product/<int:id>')     
-@app.route('/browse-all/<int:id>')   
-def getimage(id): #id is product id to get image for
-    product = ProductImages.query.filter_by(product_id=id).first()
-    path = product.filename
-
-    return send_file(BytesIO(product.image), mimetype=product.mimetype, as_attachment=False, download_name=product.filename)
-
-
 # upload product to site
 @app.route('/add-product', methods=['GET', 'POST'])
 @login_required
@@ -416,6 +406,8 @@ def edit(id):
     form.category.data = product.category
     form.size.data = product.size
 
+    app.logger.info("loaded product details into form") 
+
     if form.validate_on_submit():
         app.logger.info("validating..")
 
@@ -459,6 +451,16 @@ def edit(id):
                            title='Edit Product',
                            form=form, new=False, product=product)
                          
+
+# get image to display      
+@app.route('/edit-product/<int:id>')              
+@app.route('/browse-all/<int:id>')    
+def getimage(id): #id is product id to get image for
+    product = ProductImages.query.filter_by(product_id=id).first()
+    path = product.filename
+
+    return send_file(BytesIO(product.image), mimetype=product.mimetype, as_attachment=False, download_name=product.filename)
+
 
 # delete product and remove it from any baskets
 @app.route("/delete/<int:id>")
