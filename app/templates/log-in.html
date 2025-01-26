@@ -6,25 +6,28 @@
     <form action="" method="POST" id="login-signup">
         {{ form.hidden_tag() }}
 
-        <!-- Email -->
-         <div class="form-attributes">
-        <p>
-            <label>Email:
-            {{ form.email }}</label> <br>
-        </p>
-
-        <!--Password-->
-        <p>
-            <label>Password: 
-            {{ form.password }}</label><br>
-        </p>
         
-        <!--Submit-->
-        <p>
-            <label>
-            {{ form.submit }}</label><br>
-        </p>
+        <div class="form-attributes">
 
+            <!-- Email -->
+            <p>
+                <label>Email:
+                {{ form.email }}</label> <br>
+            </p>
+
+            <!--Password-->
+            <p>
+                <label>Password: 
+                {{ form.password }}</label><br>
+            </p>
+            
+            <!--Submit-->
+            <p>
+                <label>
+                {{ form.submit }}</label><br>
+            </p>
+            
+        </div>
         <!--form errors-->
         {% for error in form.errors %}
         [{{ error }}]

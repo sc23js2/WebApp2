@@ -1,18 +1,20 @@
 html body{
     min-width: 480px;
     width:100%;
-    background-color: beige;
+    background-color: whitesmoke;
 }
 
+/* Navigation Sytling */
 .navbar {
-    background-color:maroon;
-    
+    width: 100%;
+    background-color: #800020; 
 }
 
 .navbar-toggler
 {
-    color: beige;
+    color: rgb(0, 0, 0);
 }
+
 .nav-link 
 {
     color: beige;
@@ -24,40 +26,86 @@ html body{
     
 }
 
-/*index*/
+
+.navbar-toggler 
+{
+    color: beige;
+    
+
+}
+/*index.html (page with login/signup/browsenologin) */
 .indexcontrols
 {
-    width: 90%;
+    width: 100%;
     float: center;
     padding: 5%;
     box-sizing: content-box;
     align-self: center;
     align-items: center;
+    text-align: center;
 
+    /* title/welocme */
+    h1{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: bolder;
+        color: #800020;
+        text-align: center;
+    }
+
+    /* logo */
+    .indexcontrols .logo {
+        max-width: 200px;
+        margin-bottom: 20px;
+    }
+
+    /* all buttons */
     .btn {
         align-items: center;
-        width:90%;
-       margin-left: 5%;
+        width:45%;
+
         margin-top: 2%;
         margin-bottom: 1%;
         padding: 3%;
        
     }
 
+    /* Browse without login button */
     .btn-secondary{
-        background-color: white;
+        background-color: whitesmoke;
         color: blue;
         font-style: italic;
         border-width: 0;
+        display: block;
+        column-span: all ;
+        justify-content: center;
+    }
+    .btn-secondary:hover{
+        background-color: whitesmoke;
+        border-color: #800020;
+        border-width: 2px;
+        color:#800020;
+    }
+    .bottom-btn {
+        display: block;
+     
+        margin: 0 auto;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+        left: 50%;
     }
 
-    .btn-secondary:hover{
-        background-color: white;
-        color:rgb(48, 46, 46);
+    /* Login and signup button */
+    .top-btn {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+       
     }
+
 }
 
-/* browze */
+/* page titles */
 .info{
     padding-top: 3%;
     padding-left: 5%;
@@ -65,48 +113,151 @@ html body{
     font-weight: bolder;
 }
 
-.row{
-    padding-left: 17%;
-
-}
-
-.vote{
-    size: 30px;
-}
-
+/* filters styling */
 .filters{
     padding-left: 5%;
     padding-bottom: 2%;
+
+    /* hover effect */
+    .dropdown-item:hover {
+        background-color: #800020;
+    }
 }
 
-.card{
-    margin-bottom: 5%;
+
+/* product card styling */
+
+/* Container */
+@media only screen and (min-width: 300px) and (min-width: 700px) {
+    .product-cards-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: auto auto;
+        gap: 20px;
+        margin: 20px;
+    }
 }
 
+.product-cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+    margin: 20px;
+
+    .vieworders {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: auto auto auto auto auto;
+    }
+}
+/* Individual card  */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px; 
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px; 
+    width: 100%;
+}
 .details
 {
     padding: 2px;
 }
-
 .title{
     text-decoration:double;
 }
-
-.emptymessage
+.emptymessage 
 {
     padding-left: 5%;
-
 }
 
+/* like button and number count */
+.vote{
+    size: 30px;
+}
 .like-controls
 {
     float: right;
     right: 80%;
     justify-content: right;
     padding-bottom: 10px;
+    border-radius: 5px;
+
+    .like {
+        background-color: red;
+    }
+
+    .like:hover {
+        background-color: #a00028;
+    }
 }
 
-/*flashed messages*/
+
+/* forms */
+#login-signup{
+    width: 100%;
+    padding: 5%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#login-signup .form-attributes p {
+    margin-bottom: 15px;
+}
+#login-signup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color:#800020;
+}
+#login-signup input{
+    width: 100%;
+    box-sizing: border-box;
+    border: #800020 1px solid;
+    padding: 8px;
+    color:#800020;
+}
+#login-signup input[type="text"],
+#login-signup input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+#login-signup input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #800020;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+#login-signup input[type="submit"]:hover {
+    background-color: #a00028;
+}
+textarea{
+    width: 100%;
+    height: 300px;
+    resize: none;
+}
+.submit{
+    background-color: green;
+}
+input .btn{
+    width: 100%;
+    margin: 2px;
+
+}
+
+/*flashed error/success messages*/
 .messages
 {
     width: 100%;
@@ -115,42 +266,4 @@ html body{
     border-radius: 2px;
     border-width: 2px;
 }
-
-
-/* forms */
-#login-signup{
-    width: 100%;
-    padding: 5%;
-}
-    label {
-        color:maroon;
-        font-weight: bold;
-     
-    }
-
-
-#login-signup input{
-    width: 100%;
-    box-sizing: border-box;
-    border: maroon 1px sold;
-    padding: 8px;
-    color:maroon;
-}
-
-textarea{
-    width: 400px;
-    height: 300px;
-    resize: none;
-}
-
-.submit{
-    background-color: green;
-}
-
-input .btn{
-    width: 100%;
-    margin: 2px;
-
-}
-
 

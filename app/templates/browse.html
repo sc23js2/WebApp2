@@ -33,10 +33,10 @@
       
       <!-- if there are products to show then view them, else shoe a no products message-->
       {% if products.__len__() > 0 %}
-      <div class="row">
+
+      <div class="product-cards-container">
         {% for p in products %}
-        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8">
-          <div class="card mb-6">
+          <div class="card product-card  mb-4">
             <div class="card-body">
 
               <img src="{{ url_for('getimage', id=p.id) }}"  alt="{{ p.name }}" class="product-image card-img-top">
@@ -63,13 +63,13 @@
                     {% else %}
                       <a class="btn btn-success" href="{{ url_for('addtobasket', id=p.id) }}">Add To Basket</a>
                     {% endif %}
+                    <a class="like-controls">
+                      <button  class="btn like" onclick="likeProduct( {{p.id}} )">Like</button>
+                    </a>
+                    <br><br>
+                    <a class="like-controls" id="likes-{{p.id}}"> This product has {{p.likes}} Likes 🖤 </a> 
+  
                   {% endif %}
-
-                  <a class="like-controls">
-                    <button  class="btn btn-secondary" onclick="likeProduct( {{p.id}} )">Like</button>
-                  </a>
-                  <br><br>
-                  <a class="like-controls" id="likes-{{p.id}}"> This product has {{p.likes}} Likes 🖤 </a> 
 
                 {% else %}
                 <br>
@@ -77,11 +77,12 @@
                 {% endif %}
                              
               </div>
-          </div>
-          </div>
+          </div>   
       </div>
+     
       {% endfor %}
       </div>
+
         {% else %}
             <p class="danger info">No products are available. Upload your own by pressing above.</p>
         {% endif %}

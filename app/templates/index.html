@@ -8,13 +8,17 @@
     {% endif %}
   
     <div class="indexcontrols">
-      <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+        <h1 class="info">Welcome to ShoeSwap!</h1>
+        <img src="../app/images/SS logo.png" alt="SS Logo" class="logo product-image" width="300" height="200">
 
-      <a class="btn btn-dark" href="{{ url_for('signup') }}">Sign Up</a>
-      
-      <br>
+        <div class="top-btn">
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-dark" href="{{ url_for('signup') }}">Sign Up</a>
+        </div>
+
+        <br>
     
-      <a class="btn btn-secondary" href="{{ url_for('all') }}">Browse without Login</a>
+        <a class="btn btn-secondary bottom-btn" href="{{ url_for('all') }}">Browse without Login</a>
     </div>
 
 {% endblock %}

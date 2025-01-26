@@ -42,12 +42,10 @@
             </div>
 
                 {% if products.__len__() > 0 %}
-                <div class="container productview">
-                    
-                    <div class="row">
+                <div class="product-cards-container">
+
                         {% for p in products %}
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="card mb-4">
+                            <div class="card product-card">
                                 <div class="card-body">
                                     
                                     <img src="{{ url_for('getimage', id=p.id) }}"  alt="{{ p.name }}" class="product-image card-img-top">
@@ -69,48 +67,38 @@
                                         <a class="btn btn-danger" href="{{ url_for('delete', id=p.id)}}">Delete</a>                                   
                                         
                                     </div>
+
                                 </div>
                             </div>
-                        </div>
+                
                         {% endfor %}
-                    </div>
+                        
+                </div>
+
                 {% else %}
                     <p class="danger info">You have uploaded no products.</p>
                 {% endif %}
-            </div>
-       
             
             <h2 class="info">Your Orders</h2>
             {% if userorders.__len__() > 0 %}
-
-            <div class="container productview">
                     
-                <div class="row">
-                    {% for o in orderedProducts %}
-                    
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="card mb-6">
-                            <div class="card-body">
-                                
-                                <!--<img src="{{ url_for('getimage', id=p.id) }}"  alt="{{ p.name }}" class="product-image card-img-top">
-                            --><br><br>
-                                <h4 class="details title card-title fw-bold ">{{ p.product_name }} </h4>
-                                
-                                <h3 class="details card-subtitle fw-dark"><strong>£{{ p.price }}</strong></h3>
-                                <div class="details card-text fw-lighter"><i>{{ p.description }}</i> </div>
-                                
-                                <h6 class="details card-subtitle fw-light">Shipping Address : {{ p.quantity_available }}</h6>
-                                <br>
-                                <h6 class="details card-subtitle fw-light">Quanity : {{ p.quantity_available }}</h6>
+                {% for uo in userorders %}
 
-                            </div>
+                    <div class="card">
+                        <div class="card-title">
+                            <h3 class="info">Order #{{ uo.id }}</h3>
                         </div>
+                        <div class="card-body">
+                            <div class="info">
+                                Order Date: {{ uo.order_date }}<br>
+                                Order Status: {{ uo.status }}<br>
+                                Total Price: £{{ uo.total_price }}<br>
+                            </div>
+                         </div>
                     </div>
-                    {% endfor %}
 
-                get id from each orders
+                {% endfor %}
 
-                for each product in ordered products where orderid = userorder.id
             {% else %}
                 <p class="emptymessage">You have no orders.</p>
                 <div class="filters">

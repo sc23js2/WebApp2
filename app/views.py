@@ -140,12 +140,17 @@ def logout():
 def profile():
     #query user and their orders
      user_products = Products.query.filter_by(owner_id=current_user.id).all()
-     orderid = CustomerOrders.query.filter_by(customer_id=current_user.id).all()
-     user_orders = OrderedProducts.query.filter_by(order_id = orderid)
+     user_orders = CustomerOrders.query.filter_by(customer_id=current_user.id).all()
      form = EditPasswordForm()
-     return render_template('profile.html', title="Your Profile", user=current_user, products=user_products, changepassword=False, orderedproducts = user_orders, form=form)
+     return render_template('profile.html', title="Your Profile", user=current_user, products=user_products, userorders=user_orders, changepassword=False, form=form)
     # returns changepassword=false to indicate that the change password form should not be displayed 
 
+# get order products by order ID
+@app.route("/profile/<int:id>")
+@login_required
+def getorderproducts(id):
+    orderedproducts =  OrderedProducts.query.filter_by(order_id=id).all()
+    return orderedproducts
 
 # edit account
 @app.route('/edit-account/<int:id>', methods=['GET', 'POST'])
